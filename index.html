@@ -215,30 +215,38 @@
     </div>
 
     <script>
-      function openModal(imageSrc) {
-        // Перевіряємо ширину екрану
-        if (window.innerWidth <= 768) {
-          return; // Не відкриваємо модальне вікно на мобільних пристроях
-        }
-
-        let modalImage = document.getElementById("modalImage");
-        modalImage.src = imageSrc;
-        modalImage.onerror = function () {
-          alert("Помилка завантаження зображення: " + imageSrc);
-        };
-        document.getElementById("myModal").style.display = "flex";
-      }
-
-      function closeModal() {
-        document.getElementById("myModal").style.display = "none";
-      }
-
       document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".thumbnail").forEach((img) => {
-          img.addEventListener("click", function () {
-            openModal(this.getAttribute("data-large"));
+          img.addEventListener("click", function (event) {
+            let imageSrc = this.getAttribute("data-large");
+
+            if (window.innerWidth <= 768) {
+              // Якщо мобільний пристрій – відкриваємо картинку в новій вкладці
+              window.open(imageSrc, "_blank");
+            } else {
+              // Якщо це ПК – відкриваємо модальне вікно
+              openModal(imageSrc);
+            }
           });
         });
+
+        function openModal(imageSrc) {
+          let modalImage = document.getElementById("modalImage");
+          modalImage.src = imageSrc;
+          modalImage.onerror = function () {
+            alert("Помилка завантаження зображення: " + imageSrc);
+          };
+          document.getElementById("myModal").style.display = "flex";
+        }
+
+        function closeModal() {
+          document.getElementById("myModal").style.display = "none";
+        }
+
+        // Додаємо обробник для закриття модального вікна
+        document
+          .getElementById("myModal")
+          .addEventListener("click", closeModal);
       });
     </script>
   </body>
