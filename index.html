@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Модальне зображення</title>
-    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <!-- Мініатюри зображень -->
@@ -215,24 +215,26 @@
 
     <script>
       // Додаємо обробники подій для всіх мініатюр
-      document.querySelectorAll(".thumbnail").forEach((img) => {
-        img.addEventListener("click", function () {
-          openModal(this.getAttribute("data-large"));
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".thumbnail").forEach((img) => {
+          img.addEventListener("click", function () {
+            openModal(this.getAttribute("data-large"));
+          });
         });
+
+        function openModal(imageSrc) {
+          let modalImage = document.getElementById("modalImage");
+          modalImage.src = imageSrc;
+          modalImage.onerror = function () {
+            alert("Помилка завантаження зображення: " + imageSrc);
+          };
+          document.getElementById("myModal").style.display = "flex";
+        }
+
+        function closeModal() {
+          document.getElementById("myModal").style.display = "none";
+        }
       });
-
-      function openModal(imageSrc) {
-        let modalImage = document.getElementById("modalImage");
-        modalImage.src = imageSrc;
-        modalImage.onerror = function () {
-          alert("Помилка завантаження зображення: " + imageSrc);
-        };
-        document.getElementById("myModal").style.display = "flex";
-      }
-
-      function closeModal() {
-        document.getElementById("myModal").style.display = "none";
-      }
     </script>
   </body>
 </html>
